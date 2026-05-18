@@ -19,12 +19,12 @@ export async function POST(req: NextRequest) {
 
   const ext = file.name.split(".").pop();
   const filename = `logo.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
+  const uploadDir = path.join(process.cwd(), "uploads");
 
   await mkdir(uploadDir, { recursive: true });
   await writeFile(path.join(uploadDir, filename), buffer);
 
-  const logoUrl = `/uploads/${filename}`;
+  const logoUrl = `/api/uploads/${filename}`;
 
   await prisma.setting.upsert({
     where: { key: "logo_url" },
