@@ -97,15 +97,12 @@ export default function MenuPage() {
       <header className="sticky top-0 z-50 bg-parchment-100/97 backdrop-blur border-b-2 border-brown-800">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
           {logoUrl ? (
-            <div className="relative h-12 w-32">
-              <Image
-                src={logoUrl}
-                alt="Logo"
-                fill
-                className="object-contain object-left"
-                sizes="128px"
-              />
-            </div>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={logoUrl}
+              alt="Logo"
+              className="h-12 w-auto max-w-[160px] object-contain"
+            />
           ) : (
             <div>
               <h1 className="font-serif text-xl text-brown-900 leading-tight tracking-wide">

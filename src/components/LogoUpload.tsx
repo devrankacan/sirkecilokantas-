@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Image from "next/image";
 
 interface Props {
   locale: string;
@@ -62,12 +61,11 @@ export default function LogoUpload({ locale, currentLogoUrl }: Props) {
           onClick={() => inputRef.current?.click()}
         >
           {logoUrl ? (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={logoUrl}
               alt="Logo"
-              fill
-              className="object-contain p-2"
-              sizes="160px"
+              className="w-full h-full object-contain p-2"
             />
           ) : (
             <div className="text-center">
