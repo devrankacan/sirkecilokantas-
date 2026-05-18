@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import "./globals.css";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600"],
 });
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-serif",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -30,7 +32,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${inter.variable} ${playfair.variable} font-sans`}>
+      <body className={`${dmSans.variable} ${cormorant.variable} font-sans`}>
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>

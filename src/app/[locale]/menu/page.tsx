@@ -111,10 +111,10 @@ export default function MenuPage() {
             />
           ) : (
             <div>
-              <h1 className="font-serif text-xl text-brown-900 leading-tight tracking-wide">
+              <h1 className="font-serif text-2xl font-semibold text-brown-900 leading-tight tracking-wide">
                 {t("restaurantName")}
               </h1>
-              <p className="text-xs text-brown-500 tracking-widest uppercase mt-0.5">
+              <p className="text-[10px] text-brown-400 tracking-[0.3em] uppercase mt-0.5 font-sans">
                 {t("tagline")}
               </p>
             </div>
@@ -199,7 +199,7 @@ export default function MenuPage() {
               {/* Section header — PDF stilinde */}
               <div className="relative flex items-center gap-3 mb-4 py-2">
                 <div className="flex-1 h-px bg-brown-300" />
-                <h2 className="font-serif text-base text-brown-800 tracking-widest uppercase px-2">
+                <h2 className="font-serif text-base font-semibold text-brown-800 tracking-widest uppercase px-2">
                   {locale === "tr" ? cat.nameTr : cat.nameEn}
                 </h2>
                 <div className="flex-1 h-px bg-brown-300" />
@@ -272,15 +272,15 @@ function ProductCard({ product, locale, t, imageError, onImageError }: ProductCa
 
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="font-serif text-sm text-brown-900 leading-snug flex-1">
+          <h3 className="font-serif text-base font-semibold text-brown-900 leading-snug flex-1 tracking-wide">
             {name}
           </h3>
-          <span className="flex-shrink-0 font-semibold text-sm text-brown-800 whitespace-nowrap">
-            {Number(product.price).toLocaleString("tr-TR")} TL
+          <span className="flex-shrink-0 font-semibold text-sm text-brown-700 whitespace-nowrap font-sans tracking-wide">
+            {Number(product.price).toLocaleString("tr-TR")} ₺
           </span>
         </div>
         {description && (
-          <p className="text-brown-500 text-xs mt-1 leading-relaxed">
+          <p className="text-brown-400 text-xs mt-1 leading-relaxed font-sans font-light tracking-wide">
             {description}
           </p>
         )}

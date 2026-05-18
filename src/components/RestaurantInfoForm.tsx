@@ -5,7 +5,7 @@ import { MapPin, Phone, Clock, Wifi, Save } from "lucide-react";
 
 function InstagramIcon({ size = 15 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-500">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brown-600">
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
       <circle cx="12" cy="12" r="4"/>
       <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
@@ -59,27 +59,27 @@ export default function RestaurantInfoForm({ locale, initialInfo }: Props) {
     {
       key: "address",
       label: locale === "tr" ? "Adres" : "Address",
-      icon: <MapPin size={15} className="text-rose-500" />,
+      icon: <MapPin size={15} className="text-brown-600" />,
       placeholder: "Sirkeci Mah. Hüdavendigar Cad. No:1 Fatih/İstanbul",
       multiline: true,
     },
     {
       key: "phone",
       label: locale === "tr" ? "Telefon" : "Phone",
-      icon: <Phone size={15} className="text-emerald-500" />,
+      icon: <Phone size={15} className="text-brown-600" />,
       placeholder: "+90 212 000 00 00",
     },
     {
       key: "hours",
       label: locale === "tr" ? "Çalışma Saatleri" : "Working Hours",
-      icon: <Clock size={15} className="text-amber-500" />,
+      icon: <Clock size={15} className="text-brown-600" />,
       placeholder: "Pzt–Cum: 09:00–22:00\nCmt–Pzr: 10:00–23:00",
       multiline: true,
     },
     {
       key: "wifi",
       label: "Wi-Fi",
-      icon: <Wifi size={15} className="text-blue-500" />,
+      icon: <Wifi size={15} className="text-brown-600" />,
       placeholder: "sirkeci1912",
     },
     {

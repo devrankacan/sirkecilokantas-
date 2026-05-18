@@ -27,6 +27,10 @@ interface Props {
   restaurantName: string;
 }
 
+const iconClass = "text-brown-700";
+const iconBg = "w-8 h-8 rounded-full bg-brown-100 flex items-center justify-center flex-shrink-0 group-hover:bg-brown-200 transition-colors";
+const iconBgStatic = "w-8 h-8 rounded-full bg-brown-100 flex items-center justify-center flex-shrink-0";
+
 export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -59,20 +63,13 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
         <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-xl border border-parchment-300 overflow-hidden z-50">
           {/* Header */}
           <div className="bg-brown-900 px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {logoUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={logoUrl} alt="Logo" className="h-8 w-auto max-w-[100px] object-contain" />
-              ) : (
-                <span className="text-parchment-100 font-serif text-sm tracking-wide">
-                  {restaurantName}
-                </span>
-              )}
-            </div>
-            <button
-              onClick={() => setOpen(false)}
-              className="text-parchment-400 hover:text-parchment-100 transition-colors"
-            >
+            {logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoUrl} alt="Logo" className="h-8 w-auto max-w-[100px] object-contain" />
+            ) : (
+              <span className="text-parchment-100 font-serif text-sm tracking-wide">{restaurantName}</span>
+            )}
+            <button onClick={() => setOpen(false)} className="text-parchment-400 hover:text-parchment-100 transition-colors">
               <X size={16} />
             </button>
           </div>
@@ -86,9 +83,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
                 rel="noopener noreferrer"
                 className="flex items-start gap-3 px-4 py-3 hover:bg-parchment-50 transition-colors group"
               >
-                <div className="mt-0.5 w-8 h-8 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0 group-hover:bg-rose-100 transition-colors">
-                  <MapPin size={15} className="text-rose-500" />
-                </div>
+                <div className={iconBg}><MapPin size={15} className={iconClass} /></div>
                 <div>
                   <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Adres</p>
                   <p className="text-sm text-brown-800 leading-snug">{info.address}</p>
@@ -101,9 +96,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
                 href={`tel:${info.phone}`}
                 className="flex items-start gap-3 px-4 py-3 hover:bg-parchment-50 transition-colors group"
               >
-                <div className="mt-0.5 w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-100 transition-colors">
-                  <Phone size={15} className="text-emerald-500" />
-                </div>
+                <div className={iconBg}><Phone size={15} className={iconClass} /></div>
                 <div>
                   <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Telefon</p>
                   <p className="text-sm text-brown-800">{info.phone}</p>
@@ -113,9 +106,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
 
             {info.hours && (
               <div className="flex items-start gap-3 px-4 py-3">
-                <div className="mt-0.5 w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
-                  <Clock size={15} className="text-amber-500" />
-                </div>
+                <div className={iconBgStatic}><Clock size={15} className={iconClass} /></div>
                 <div>
                   <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Çalışma Saatleri</p>
                   <p className="text-sm text-brown-800 whitespace-pre-line leading-snug">{info.hours}</p>
@@ -125,9 +116,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
 
             {info.wifi && (
               <div className="flex items-start gap-3 px-4 py-3">
-                <div className="mt-0.5 w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <Wifi size={15} className="text-blue-500" />
-                </div>
+                <div className={iconBgStatic}><Wifi size={15} className={iconClass} /></div>
                 <div>
                   <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Wi-Fi Şifresi</p>
                   <p className="text-sm text-brown-800 font-mono tracking-wide">{info.wifi}</p>
@@ -142,9 +131,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
                 rel="noopener noreferrer"
                 className="flex items-start gap-3 px-4 py-3 hover:bg-parchment-50 transition-colors group"
               >
-                <div className="mt-0.5 w-8 h-8 rounded-full bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center flex-shrink-0 group-hover:from-purple-100 group-hover:to-pink-100 transition-colors text-pink-500">
-                  <InstagramIcon size={15} />
-                </div>
+                <div className={`${iconBg} text-brown-700`}><InstagramIcon size={15} /></div>
                 <div>
                   <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Instagram</p>
                   <p className="text-sm text-brown-800">
