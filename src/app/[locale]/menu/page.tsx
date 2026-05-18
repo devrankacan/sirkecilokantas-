@@ -140,7 +140,7 @@ export default function MenuPage() {
       {coverUrls.length > 0 && <CoverSlider urls={coverUrls} />}
 
       {/* Category Tabs */}
-      <div className="sticky top-[69px] z-40 bg-parchment-200/97 backdrop-blur border-b border-brown-200">
+      <div className="sticky top-[90px] z-40 bg-parchment-200/97 backdrop-blur border-b border-brown-200">
         <div className="max-w-2xl mx-auto px-4 py-2.5">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-0.5">
             <button

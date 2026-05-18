@@ -17,8 +17,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Sirkeci Lokantası",
+  title: "Sirkeci Lokantası 1912",
   description: "Lezzet ve Gelenek | Flavor & Tradition",
+  icons: { icon: "/api/favicon" },
 };
 
 export default async function LocaleLayout({

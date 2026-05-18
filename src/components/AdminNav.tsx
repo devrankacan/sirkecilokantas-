@@ -3,6 +3,7 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface AdminNavProps {
   locale: string;
@@ -10,6 +11,11 @@ interface AdminNavProps {
 
 export default function AdminNav({ locale }: AdminNavProps) {
   const pathname = usePathname();
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/settings").then(r => r.json()).then(d => setLogoUrl(d.logoUrl)).catch(() => {});
+  }, []);
 
   const navLinks = [
     {
@@ -39,9 +45,12 @@ export default function AdminNav({ locale }: AdminNavProps) {
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-1">
-            <span className="font-bold text-gray-900 mr-4 hidden sm:block">
-              Sirkeci Lokantası
-            </span>
+            {logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoUrl} alt="Logo" className="h-8 w-auto max-w-[120px] object-contain mr-3 hidden sm:block" />
+            ) : (
+              <span className="font-bold text-gray-900 mr-4 hidden sm:block">Sirkeci Lokantası</span>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.href}
