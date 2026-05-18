@@ -35,6 +35,7 @@ export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchMenu() {
@@ -50,7 +51,17 @@ export default function MenuPage() {
         setLoading(false);
       }
     }
+    async function fetchSettings() {
+      try {
+        const res = await fetch("/api/settings");
+        if (res.ok) {
+          const data = await res.json();
+          setLogoUrl(data.logoUrl);
+        }
+      } catch {}
+    }
     fetchMenu();
+    fetchSettings();
   }, []);
 
   function toggleLocale() {
@@ -85,14 +96,26 @@ export default function MenuPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-parchment-100/97 backdrop-blur border-b-2 border-brown-800">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div>
-            <h1 className="font-serif text-xl text-brown-900 leading-tight tracking-wide">
-              {t("restaurantName")}
-            </h1>
-            <p className="text-xs text-brown-500 tracking-widest uppercase mt-0.5">
-              {t("tagline")}
-            </p>
-          </div>
+          {logoUrl ? (
+            <div className="relative h-12 w-32">
+              <Image
+                src={logoUrl}
+                alt="Logo"
+                fill
+                className="object-contain object-left"
+                sizes="128px"
+              />
+            </div>
+          ) : (
+            <div>
+              <h1 className="font-serif text-xl text-brown-900 leading-tight tracking-wide">
+                {t("restaurantName")}
+              </h1>
+              <p className="text-xs text-brown-500 tracking-widest uppercase mt-0.5">
+                {t("tagline")}
+              </p>
+            </div>
+          )}
           <button
             onClick={toggleLocale}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brown-400 hover:border-brown-700 hover:bg-parchment-200 text-sm text-brown-600 hover:text-brown-900 transition-all"

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AdminNav from "@/components/AdminNav";
+import LogoUpload from "@/components/LogoUpload";
 
 export default async function DashboardPage({
   params: { locale },
@@ -14,10 +15,11 @@ export default async function DashboardPage({
     redirect(`/${locale}/admin/login`);
   }
 
-  const [totalCategories, totalProducts, availableProducts] = await Promise.all([
+  const [totalCategories, totalProducts, availableProducts, logoSetting] = await Promise.all([
     prisma.category.count(),
     prisma.product.count(),
     prisma.product.count({ where: { available: true } }),
+    prisma.setting.findUnique({ where: { key: "logo_url" } }),
   ]);
 
   const stats = [
@@ -75,6 +77,10 @@ export default async function DashboardPage({
               <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mb-8">
+          <LogoUpload locale={locale} currentLogoUrl={logoSetting?.value ?? null} />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
