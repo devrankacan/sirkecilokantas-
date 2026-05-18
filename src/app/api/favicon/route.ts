@@ -9,7 +9,8 @@ export async function GET() {
   try {
     const setting = await prisma.setting.findUnique({ where: { key: "logo_url" } });
     if (setting?.value) {
-      const filename = setting.value.replace("/api/uploads/", "");
+      const raw = setting.value.replace(/^\/api\/uploads\//, "").replace(/^\/uploads\//, "");
+      const filename = path.basename(raw.split("?")[0]);
       const filePath = path.join(process.cwd(), "uploads", filename);
       const file = await readFile(filePath);
       const ext = filename.split(".").pop()?.toLowerCase();

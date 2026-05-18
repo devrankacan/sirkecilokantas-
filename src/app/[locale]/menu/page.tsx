@@ -98,7 +98,7 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="min-h-screen bg-parchment-100">
+    <div className="min-h-screen bg-parchment-100 menu-texture">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-parchment-100/97 backdrop-blur border-b-2 border-brown-800">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
