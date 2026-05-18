@@ -10,11 +10,14 @@ interface QRDisplayProps {
 export default function QRDisplay({ menuUrl, locale }: QRDisplayProps) {
   const [svgContent, setSvgContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [fullMenuUrl, setFullMenuUrl] = useState(menuUrl);
 
   useEffect(() => {
+    const full = `${window.location.origin}${fullMenuUrl}`;
+    setFullMenuUrl(full);
     async function loadQR() {
       try {
-        const res = await fetch(`/api/qr?url=${encodeURIComponent(menuUrl)}`);
+        const res = await fetch(`/api/qr?url=${encodeURIComponent(full)}`);
         if (res.ok) {
           const text = await res.text();
           setSvgContent(text);
@@ -59,7 +62,7 @@ export default function QRDisplay({ menuUrl, locale }: QRDisplayProps) {
         <p className="text-sm text-gray-500 mb-1">
           {locale === "tr" ? "Menü URL:" : "Menu URL:"}
         </p>
-        <p className="text-xs text-amber-700 font-mono break-all mb-6">{menuUrl}</p>
+        <p className="text-xs text-amber-700 font-mono break-all mb-6">{fullMenuUrl}</p>
 
         <div className="flex gap-3 justify-center">
           <button
@@ -70,7 +73,7 @@ export default function QRDisplay({ menuUrl, locale }: QRDisplayProps) {
             ⬇ {locale === "tr" ? "SVG İndir" : "Download SVG"}
           </button>
           <a
-            href={menuUrl}
+            href={fullMenuUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"

@@ -272,15 +272,15 @@ function ProductCard({ product, locale, t, imageError, onImageError }: ProductCa
 
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="font-serif text-base font-semibold text-brown-900 leading-snug flex-1 tracking-wide">
+          <h3 className="font-serif text-[17px] font-bold text-brown-950 leading-snug flex-1 tracking-wide">
             {name}
           </h3>
-          <span className="flex-shrink-0 font-semibold text-sm text-brown-700 whitespace-nowrap font-sans tracking-wide">
+          <span className="flex-shrink-0 font-bold text-sm text-brown-800 whitespace-nowrap font-sans tracking-wide">
             {Number(product.price).toLocaleString("tr-TR")} ₺
           </span>
         </div>
         {description && (
-          <p className="text-brown-400 text-xs mt-1 leading-relaxed font-sans font-light tracking-wide">
+          <p className="text-brown-600 text-xs mt-1 leading-relaxed font-sans font-normal tracking-wide">
             {description}
           </p>
         )}

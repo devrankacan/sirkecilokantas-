@@ -14,8 +14,7 @@ export default async function QRPage({
     redirect(`/${locale}/admin/login`);
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-  const menuUrl = `${baseUrl}/tr/menu`;
+  const menuUrl = `/tr/menu`;
 
   return (
     <div className="min-h-screen bg-gray-50">

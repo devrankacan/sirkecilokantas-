@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import QRCode from "qrcode";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const url = searchParams.get("url") || `${process.env.NEXTAUTH_URL}/tr/menu`;
+  const { searchParams, origin } = new URL(request.url);
+  const url = searchParams.get("url") || `${origin}/tr/menu`;
 
   try {
     const qrSvg = await QRCode.toString(url, { type: "svg", margin: 2 });
