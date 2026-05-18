@@ -25,13 +25,32 @@ interface Props {
   info: Info;
   logoUrl: string | null;
   restaurantName: string;
+  locale: string;
 }
+
+const tr = {
+  button: "Bilgi",
+  address: "Adres",
+  phone: "Telefon",
+  hours: "Çalışma Saatleri",
+  wifi: "Wi-Fi Şifresi",
+  instagram: "Instagram",
+};
+const en = {
+  button: "Info",
+  address: "Address",
+  phone: "Phone",
+  hours: "Working Hours",
+  wifi: "Wi-Fi Password",
+  instagram: "Instagram",
+};
 
 const iconClass = "text-brown-700";
 const iconBg = "w-8 h-8 rounded-full bg-brown-100 flex items-center justify-center flex-shrink-0 group-hover:bg-brown-200 transition-colors";
 const iconBgStatic = "w-8 h-8 rounded-full bg-brown-100 flex items-center justify-center flex-shrink-0";
 
-export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }: Props) {
+export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName, locale }: Props) {
+  const t = locale === "tr" ? tr : en;
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -52,7 +71,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brown-400 hover:border-brown-700 hover:bg-parchment-200 text-sm text-brown-600 hover:text-brown-900 transition-all"
       >
-        <span className="font-medium text-xs tracking-wide">Bilgi</span>
+        <span className="font-medium text-xs tracking-wide">{t.button}</span>
         <ChevronDown
           size={13}
           className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
@@ -85,7 +104,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
               >
                 <div className={iconBg}><MapPin size={15} className={iconClass} /></div>
                 <div>
-                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Adres</p>
+                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">{t.address}</p>
                   <p className="text-sm text-brown-800 leading-snug">{info.address}</p>
                 </div>
               </a>
@@ -98,7 +117,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
               >
                 <div className={iconBg}><Phone size={15} className={iconClass} /></div>
                 <div>
-                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Telefon</p>
+                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">{t.phone}</p>
                   <p className="text-sm text-brown-800">{info.phone}</p>
                 </div>
               </a>
@@ -108,7 +127,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
               <div className="flex items-start gap-3 px-4 py-3">
                 <div className={iconBgStatic}><Clock size={15} className={iconClass} /></div>
                 <div>
-                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Çalışma Saatleri</p>
+                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">{t.hours}</p>
                   <p className="text-sm text-brown-800 whitespace-pre-line leading-snug">{info.hours}</p>
                 </div>
               </div>
@@ -118,7 +137,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
               <div className="flex items-start gap-3 px-4 py-3">
                 <div className={iconBgStatic}><Wifi size={15} className={iconClass} /></div>
                 <div>
-                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Wi-Fi Şifresi</p>
+                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">{t.wifi}</p>
                   <p className="text-sm text-brown-800 font-mono tracking-wide">{info.wifi}</p>
                 </div>
               </div>
@@ -133,7 +152,7 @@ export default function RestaurantInfoDropdown({ info, logoUrl, restaurantName }
               >
                 <div className={`${iconBg} text-brown-700`}><InstagramIcon size={15} /></div>
                 <div>
-                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">Instagram</p>
+                  <p className="text-xs text-brown-400 font-medium uppercase tracking-wider mb-0.5">{t.instagram}</p>
                   <p className="text-sm text-brown-800">
                     {info.instagram.startsWith("@") ? info.instagram : `@${info.instagram}`}
                   </p>

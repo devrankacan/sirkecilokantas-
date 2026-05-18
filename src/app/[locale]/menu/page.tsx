@@ -124,6 +124,7 @@ export default function MenuPage() {
               info={restaurantInfo}
               logoUrl={logoUrl}
               restaurantName={t("restaurantName")}
+              locale={locale}
             />
             <button
               onClick={toggleLocale}
