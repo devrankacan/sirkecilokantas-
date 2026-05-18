@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import CoverSlider from "@/components/CoverSlider";
 
 interface Product {
   id: string;
@@ -36,7 +37,7 @@ export default function MenuPage() {
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [coverUrl, setCoverUrl] = useState<string | null>(null);
+  const [coverUrls, setCoverUrls] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchMenu() {
@@ -58,7 +59,7 @@ export default function MenuPage() {
         if (res.ok) {
           const data = await res.json();
           setLogoUrl(data.logoUrl);
-          setCoverUrl(data.coverUrl);
+          setCoverUrls(data.coverUrls ?? []);
         }
       } catch {}
     }
@@ -125,15 +126,8 @@ export default function MenuPage() {
         </div>
       </header>
 
-      {/* Cover */}
-      {coverUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={coverUrl}
-          alt="Kapak"
-          className="w-full max-w-2xl mx-auto block object-cover max-h-64"
-        />
-      )}
+      {/* Cover Slider */}
+      {coverUrls.length > 0 && <CoverSlider urls={coverUrls} />}
 
       {/* Category Tabs */}
       <div className="sticky top-[69px] z-40 bg-parchment-200/97 backdrop-blur border-b border-brown-200">

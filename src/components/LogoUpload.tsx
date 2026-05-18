@@ -5,12 +5,12 @@ import { useState, useRef } from "react";
 interface Props {
   locale: string;
   currentLogoUrl: string | null;
-  currentCoverUrl: string | null;
+  currentCoverUrls: string[];
 }
 
-export default function LogoUpload({ locale, currentLogoUrl, currentCoverUrl }: Props) {
+export default function LogoUpload({ locale, currentLogoUrl, currentCoverUrls }: Props) {
   const [logoUrl, setLogoUrl] = useState<string | null>(currentLogoUrl);
-  const [coverUrl, setCoverUrl] = useState<string | null>(currentCoverUrl);
+  const [coverUrls, setCoverUrls] = useState<string[]>(currentCoverUrls);
   const [logoUploading, setLogoUploading] = useState(false);
   const [coverUploading, setCoverUploading] = useState(false);
   const [logoError, setLogoError] = useState<string | null>(null);
@@ -62,21 +62,27 @@ export default function LogoUpload({ locale, currentLogoUrl, currentCoverUrl }: 
       const res = await fetch("/api/admin/cover", { method: "POST", body: formData });
       if (!res.ok) throw new Error();
       const data = await res.json();
-      setCoverUrl(data.coverUrl + "?t=" + Date.now());
+      setCoverUrls(data.coverUrls);
     } catch {
       setCoverError(locale === "tr" ? "Yükleme başarısız" : "Upload failed");
     } finally {
       setCoverUploading(false);
+      if (coverInputRef.current) coverInputRef.current.value = "";
     }
   }
 
-  async function handleCoverRemove() {
+  async function handleCoverRemove(url: string) {
     setCoverUploading(true);
     setCoverError(null);
     try {
-      const res = await fetch("/api/admin/cover", { method: "DELETE" });
+      const res = await fetch("/api/admin/cover", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
       if (!res.ok) throw new Error();
-      setCoverUrl(null);
+      const data = await res.json();
+      setCoverUrls(data.coverUrls);
     } catch {
       setCoverError(locale === "tr" ? "Silme başarısız" : "Remove failed");
     } finally {
@@ -138,49 +144,49 @@ export default function LogoUpload({ locale, currentLogoUrl, currentCoverUrl }: 
         <input ref={logoInputRef} type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
       </div>
 
-      {/* Kapak Görseli */}
+      {/* Kapak Slider Görselleri */}
       <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-        <h2 className="font-semibold text-gray-900 mb-4">
-          {locale === "tr" ? "Kapak Görseli" : "Cover Image"}
+        <h2 className="font-semibold text-gray-900 mb-1">
+          {locale === "tr" ? "Kapak Slider Görselleri" : "Cover Slider Images"}
         </h2>
-        <div className="flex flex-col gap-4">
-          {coverUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={coverUrl}
-              alt="Kapak"
-              className="w-full rounded-lg object-cover max-h-48 border border-gray-200"
-            />
-          )}
-          <div className="flex gap-2">
-            <button
-              onClick={() => coverInputRef.current?.click()}
-              disabled={coverUploading}
-              className="px-4 py-2 bg-amber-600 text-white text-sm rounded-lg hover:bg-amber-700 disabled:opacity-50 transition-colors"
-            >
-              {coverUploading
-                ? locale === "tr" ? "Yükleniyor…" : "Uploading…"
-                : coverUrl
-                ? locale === "tr" ? "Görseli Değiştir" : "Change Cover"
-                : locale === "tr" ? "Kapak Yükle" : "Upload Cover"}
-            </button>
-            {coverUrl && (
-              <button
-                onClick={handleCoverRemove}
-                disabled={coverUploading}
-                className="px-4 py-2 bg-red-50 text-red-600 text-sm rounded-lg hover:bg-red-100 disabled:opacity-50 transition-colors border border-red-200"
-              >
-                {locale === "tr" ? "Görseli Kaldır" : "Remove Cover"}
-              </button>
-            )}
+        <p className="text-xs text-gray-400 mb-4">
+          {locale === "tr"
+            ? "Birden fazla görsel yükleyebilirsiniz — menüde otomatik kayar"
+            : "Upload multiple images — they auto-slide on the menu"}
+        </p>
+
+        {coverUrls.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+            {coverUrls.map((url, i) => (
+              <div key={i} className="relative group rounded-lg overflow-hidden border border-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt="" className="w-full h-24 object-cover" />
+                <button
+                  onClick={() => handleCoverRemove(url)}
+                  disabled={coverUploading}
+                  className="absolute top-1 right-1 w-6 h-6 bg-red-600 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  ×
+                </button>
+                <span className="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-1.5 py-0.5 rounded">
+                  {i + 1}
+                </span>
+              </div>
+            ))}
           </div>
-          {coverError && <p className="text-red-500 text-xs">{coverError}</p>}
-          <p className="text-xs text-gray-400">
-            {locale === "tr"
-              ? "PNG, JPG · Menü sayfasında başlığın altında gösterilir"
-              : "PNG, JPG · Shown below header on menu page"}
-          </p>
-        </div>
+        )}
+
+        <button
+          onClick={() => coverInputRef.current?.click()}
+          disabled={coverUploading}
+          className="px-4 py-2 bg-amber-600 text-white text-sm rounded-lg hover:bg-amber-700 disabled:opacity-50 transition-colors"
+        >
+          {coverUploading
+            ? locale === "tr" ? "Yükleniyor…" : "Uploading…"
+            : locale === "tr" ? "+ Görsel Ekle" : "+ Add Image"}
+        </button>
+
+        {coverError && <p className="text-red-500 text-xs mt-2">{coverError}</p>}
         <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
       </div>
     </div>

@@ -20,7 +20,7 @@ export default async function DashboardPage({
     prisma.product.count(),
     prisma.product.count({ where: { available: true } }),
     prisma.setting.findUnique({ where: { key: "logo_url" } }),
-    prisma.setting.findUnique({ where: { key: "cover_url" } }),
+    prisma.setting.findUnique({ where: { key: "cover_urls" } }),
   ]);
 
   const stats = [
@@ -81,7 +81,7 @@ export default async function DashboardPage({
         </div>
 
         <div className="mb-8">
-          <LogoUpload locale={locale} currentLogoUrl={logoSetting?.value ?? null} currentCoverUrl={coverSetting?.value ?? null} />
+          <LogoUpload locale={locale} currentLogoUrl={logoSetting?.value ?? null} currentCoverUrls={coverSetting ? JSON.parse(coverSetting.value) : []} />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
