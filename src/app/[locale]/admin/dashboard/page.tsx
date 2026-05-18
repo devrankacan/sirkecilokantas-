@@ -15,11 +15,12 @@ export default async function DashboardPage({
     redirect(`/${locale}/admin/login`);
   }
 
-  const [totalCategories, totalProducts, availableProducts, logoSetting] = await Promise.all([
+  const [totalCategories, totalProducts, availableProducts, logoSetting, coverSetting] = await Promise.all([
     prisma.category.count(),
     prisma.product.count(),
     prisma.product.count({ where: { available: true } }),
     prisma.setting.findUnique({ where: { key: "logo_url" } }),
+    prisma.setting.findUnique({ where: { key: "cover_url" } }),
   ]);
 
   const stats = [
@@ -80,7 +81,7 @@ export default async function DashboardPage({
         </div>
 
         <div className="mb-8">
-          <LogoUpload locale={locale} currentLogoUrl={logoSetting?.value ?? null} />
+          <LogoUpload locale={locale} currentLogoUrl={logoSetting?.value ?? null} currentCoverUrl={coverSetting?.value ?? null} />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

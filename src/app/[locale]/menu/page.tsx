@@ -36,6 +36,7 @@ export default function MenuPage() {
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchMenu() {
@@ -57,6 +58,7 @@ export default function MenuPage() {
         if (res.ok) {
           const data = await res.json();
           setLogoUrl(data.logoUrl);
+          setCoverUrl(data.coverUrl);
         }
       } catch {}
     }
@@ -101,7 +103,7 @@ export default function MenuPage() {
             <img
               src={logoUrl}
               alt="Logo"
-              className="h-12 w-auto max-w-[160px] object-contain"
+              className="h-16 w-auto max-w-[200px] object-contain"
             />
           ) : (
             <div>
@@ -123,19 +125,15 @@ export default function MenuPage() {
         </div>
       </header>
 
-      {/* Hero */}
-      <div className="bg-brown-900 py-8 px-4 text-center">
-        <div className="max-w-2xl mx-auto">
-          <div className="w-24 h-px bg-parchment-400 mx-auto mb-3" />
-          <p className="text-parchment-300 text-xs tracking-[0.25em] uppercase font-light">
-            1912
-          </p>
-          <p className="text-parchment-200 text-sm tracking-[0.15em] uppercase mt-1 font-serif">
-            {t("title")}
-          </p>
-          <div className="w-24 h-px bg-parchment-400 mx-auto mt-3" />
-        </div>
-      </div>
+      {/* Cover */}
+      {coverUrl && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={coverUrl}
+          alt="Kapak"
+          className="w-full max-w-2xl mx-auto block object-cover max-h-64"
+        />
+      )}
 
       {/* Category Tabs */}
       <div className="sticky top-[69px] z-40 bg-parchment-200/97 backdrop-blur border-b border-brown-200">
