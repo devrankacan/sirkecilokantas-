@@ -11,15 +11,22 @@ export async function GET() {
     if (setting?.value) {
       const raw = setting.value.replace(/^\/api\/uploads\//, "").replace(/^\/uploads\//, "");
       const filename = path.basename(raw.split("?")[0]);
-      const filePath = path.join(process.cwd(), "uploads", filename);
-      const file = await readFile(filePath);
-      const ext = filename.split(".").pop()?.toLowerCase();
-      const contentType =
-        ext === "png" ? "image/png" :
-        ext === "svg" ? "image/svg+xml" :
-        ext === "webp" ? "image/webp" :
-        "image/jpeg";
-      return new NextResponse(file, { headers: { "Content-Type": contentType } });
+      const candidates = [
+        path.join(process.cwd(), "uploads", filename),
+        path.join(process.cwd(), "public", "uploads", filename),
+      ];
+      for (const p of candidates) {
+        try {
+          const file = await readFile(p);
+          const ext = filename.split(".").pop()?.toLowerCase();
+          const contentType =
+            ext === "png" ? "image/png" :
+            ext === "svg" ? "image/svg+xml" :
+            ext === "webp" ? "image/webp" :
+            "image/jpeg";
+          return new NextResponse(file, { headers: { "Content-Type": contentType } });
+        } catch {}
+      }
     }
   } catch {}
 
