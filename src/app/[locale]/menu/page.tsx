@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import CoverSlider from "@/components/CoverSlider";
+import RestaurantInfoDropdown from "@/components/RestaurantInfoDropdown";
 
 interface Product {
   id: string;
@@ -38,6 +39,7 @@ export default function MenuPage() {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [coverUrls, setCoverUrls] = useState<string[]>([]);
+  const [restaurantInfo, setRestaurantInfo] = useState<Record<string, string>>({});
 
   useEffect(() => {
     async function fetchMenu() {
@@ -60,6 +62,7 @@ export default function MenuPage() {
           const data = await res.json();
           setLogoUrl(data.logoUrl);
           setCoverUrls(data.coverUrls ?? []);
+          setRestaurantInfo(data.restaurantInfo ?? {});
         }
       } catch {}
     }
@@ -116,13 +119,20 @@ export default function MenuPage() {
               </p>
             </div>
           )}
-          <button
-            onClick={toggleLocale}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brown-400 hover:border-brown-700 hover:bg-parchment-200 text-sm text-brown-600 hover:text-brown-900 transition-all"
-          >
-            <span className="text-base">{locale === "tr" ? "🇬🇧" : "🇹🇷"}</span>
-            <span className="font-medium">{locale === "tr" ? "EN" : "TR"}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <RestaurantInfoDropdown
+              info={restaurantInfo}
+              logoUrl={logoUrl}
+              restaurantName={t("restaurantName")}
+            />
+            <button
+              onClick={toggleLocale}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brown-400 hover:border-brown-700 hover:bg-parchment-200 text-sm text-brown-600 hover:text-brown-900 transition-all"
+            >
+              <span className="text-base">{locale === "tr" ? "🇬🇧" : "🇹🇷"}</span>
+              <span className="font-medium">{locale === "tr" ? "EN" : "TR"}</span>
+            </button>
+          </div>
         </div>
       </header>
 

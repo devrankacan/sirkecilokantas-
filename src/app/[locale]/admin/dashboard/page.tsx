@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AdminNav from "@/components/AdminNav";
 import LogoUpload from "@/components/LogoUpload";
+import RestaurantInfoForm from "@/components/RestaurantInfoForm";
 
 export default async function DashboardPage({
   params: { locale },
@@ -15,12 +16,13 @@ export default async function DashboardPage({
     redirect(`/${locale}/admin/login`);
   }
 
-  const [totalCategories, totalProducts, availableProducts, logoSetting, coverSetting] = await Promise.all([
+  const [totalCategories, totalProducts, availableProducts, logoSetting, coverSetting, infoSetting] = await Promise.all([
     prisma.category.count(),
     prisma.product.count(),
     prisma.product.count({ where: { available: true } }),
     prisma.setting.findUnique({ where: { key: "logo_url" } }),
     prisma.setting.findUnique({ where: { key: "cover_urls" } }),
+    prisma.setting.findUnique({ where: { key: "restaurant_info" } }),
   ]);
 
   const stats = [
@@ -82,6 +84,7 @@ export default async function DashboardPage({
 
         <div className="mb-8">
           <LogoUpload locale={locale} currentLogoUrl={logoSetting?.value ?? null} currentCoverUrls={coverSetting ? JSON.parse(coverSetting.value) : []} />
+          <RestaurantInfoForm locale={locale} initialInfo={infoSetting ? JSON.parse(infoSetting.value) : {}} />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
